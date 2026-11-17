@@ -21,6 +21,10 @@ All changes are tuned to keep vanilla gameplay, PvP, redstone, and farms intact 
 - **Fast Spectator/Removed Push Skip**: Skips `pushEntities` immediately for removed or spectator entities.
 - **In-Ground Arrow Optimization (`gfloor.optimizeInGroundArrows`)**: Skips redundant block collision shape allocations and reduces block-effect checks for arrows already stuck in blocks.
 - **Idle Minecart Event Skip (`gfloor.skipUnusedVehicleUpdateEvent`)**: Avoids allocating `Location` and `VehicleUpdateEvent` every tick when no plugins listen to `VehicleUpdateEvent`.
+- **Spawner Idle Scan Throttle (`gfloor.optimizeSpawnerIdleScan`)**: Halves player-range scan frequency while `spawnDelay > 20` without changing spawn timing.
+- **Beacon Scan Optimization (`gfloor.optimizeBeaconScan`)**: Halves sky/pyramid re-scan frequency for active beacons.
+- **Idle Boat Water-Check Skip (`gfloor.optimizeIdleBoats`)**: Skips redundant water-level scans on empty, stationary boats.
+- **Fast Thunder Early-Return (`gfloor.fastThunderEarlyReturn`)**: Returns immediately from `tickThunder` when not thundering.
 
 ### Enabled Canvas Defaults
 - `enableSuffocationOptimization`: `true`

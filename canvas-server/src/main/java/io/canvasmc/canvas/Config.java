@@ -817,5 +817,20 @@ public class Config {
 
         @Comment("Skips firing VehicleUpdateEvent when no plugins are listening to it")
         public boolean skipUnusedVehicleUpdateEvent = true;
+
+        @Comment("Reduces spawner player-range scan frequency while spawnDelay is still high")
+        public boolean optimizeSpawnerIdleScan = true;
+
+        @Comment("Halves beacon sky/pyramid scan frequency when a beacon is already active")
+        public boolean optimizeBeaconScan = true;
+
+        @Comment("Skips redundant water-level scans on empty, stationary boats")
+        public boolean optimizeIdleBoats = true;
+
+        @Comment("Early-returns from tickThunder before chunk/config lookups when not thundering")
+        public boolean fastThunderEarlyReturn = true;
+
+        @Comment("Automatically lowers crowdPlayerThreshold by 25% when region MSPT exceeds 40ms")
+        public boolean enableTpsAutoGuard = true;
     }
 }
