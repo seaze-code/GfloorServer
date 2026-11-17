@@ -811,5 +811,11 @@ public class Config {
 
         @Comment("Throttles path recomputation for mobs without a target in crowded regions")
         public boolean throttleDistantPathfinding = true;
+
+        @Comment("Skips redundant collision shape allocations for arrows already stuck in blocks")
+        public boolean optimizeInGroundArrows = true;
+
+        @Comment("Skips firing VehicleUpdateEvent when no plugins are listening to it")
+        public boolean skipUnusedVehicleUpdateEvent = true;
     }
 }

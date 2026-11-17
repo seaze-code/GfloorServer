@@ -19,6 +19,8 @@ All changes are tuned to keep vanilla gameplay, PvP, redstone, and farms intact 
 - **Idle Villager Brain Throttle (`gfloor.optimizeIdleVillagerBrain`)**: Halves brain ticks for non-trading villagers in crowded regions.
 - **Distant Pathfinding Throttle (`gfloor.throttleDistantPathfinding`)**: Delays path recomputation for mobs without a target in crowded regions.
 - **Fast Spectator/Removed Push Skip**: Skips `pushEntities` immediately for removed or spectator entities.
+- **In-Ground Arrow Optimization (`gfloor.optimizeInGroundArrows`)**: Skips redundant block collision shape allocations and reduces block-effect checks for arrows already stuck in blocks.
+- **Idle Minecart Event Skip (`gfloor.skipUnusedVehicleUpdateEvent`)**: Avoids allocating `Location` and `VehicleUpdateEvent` every tick when no plugins listen to `VehicleUpdateEvent`.
 
 ### Enabled Canvas Defaults
 - `enableSuffocationOptimization`: `true`
