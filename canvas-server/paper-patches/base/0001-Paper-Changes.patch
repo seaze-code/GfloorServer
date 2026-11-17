@@ -55,7 +55,7 @@ index 8a9d9b44ec3ceb6cc6a7fc97814294a25cedfd9b..e056d9407a1ce95c99df7fdb29cb59f3
      }
 diff --git a/src/main/java/io/papermc/paper/util/CountingOps.java b/src/main/java/io/papermc/paper/util/CountingOps.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..20026e54b9906367e66e6bf61d88b98c5f4c4412
+index 0000000000000000000000000000000000000000..2cb103bce7a3f35c993337c21db9567608fbd6f0
 --- /dev/null
 +++ b/src/main/java/io/papermc/paper/util/CountingOps.java
 @@ -0,0 +1,308 @@

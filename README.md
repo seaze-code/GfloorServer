@@ -1,93 +1,49 @@
-![title](./canvas_title.png)
+# GfloorServer (1.21.11)
 
-[![License: GPL-3.0](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)  
-[![GitHub stars](https://img.shields.io/github/stars/CraftCanvasMC/Canvas)](https://github.com/CraftCanvasMC/Canvas)  
-[![GitHub forks](https://img.shields.io/github/forks/CraftCanvasMC/Canvas)](https://github.com/CraftCanvasMC/Canvas)  
+A performance-focused **fork of [CraftCanvasMC/Canvas](https://github.com/CraftCanvasMC/Canvas)** (`ver/1.21.11`), built for large SMP servers.
 
-CanvasMC is a high performance fork of Folia aiming to provide a stable and consistent region threading environment, alongside tons
-of optimizations and performance features for large scale servers.
+Maintained by **sea**, **urboy**, and **xlay**.
 
----
-[![bStats Graph Data](https://bstats.org/signatures/server-implementation/Canvas.svg)](https://bstats.org/plugin/server-implementation/Canvas)
----
+## What this fork adds
 
-## Features & Highlights
+All changes are tuned to keep vanilla gameplay, PvP, redstone, and farms intact while cutting down tick overhead when players cluster together.
 
-### Alternative Scheduler
-- Canvas provides a scheduler written by the team called the `AFFINITY` scheduler, which contains configurable features that increase performance immensely.
+### Region & SMP Optimizations
+- **Crowd Region Splitting (`gfloor.enableCrowdRegionSplit`)**: Uses `4x4` chunk region sections (`gridExponent <= 2`) so dense player areas split across separate region threads instead of crowding one thread.
+- **Entity Collision Cap (`gfloor.enableCrowdEntityThrottling`)**: Limits per-tick collision checks to `4` when more than 6 entities stack together.
+- **Distant Mob AI Throttling (`gfloor.aiThrottleDistance`)**: Reduces full goal/target evaluation frequency for idle mobs beyond `32` blocks in crowded regions while keeping running goals active.
+- **Idle Hopper Cooldown Scaling (`gfloor.optimizeHopperUnderLoad`)**: Doubles check cooldown only for hoppers that did not move any items in crowded regions.
+- **Dynamic Chunk Random Ticking (`gfloor.enableDynamicChunkTicking`)**: Scales `randomTickSpeed` in crowded regions (`crowdedRandomTickDivisor: 2`).
+- **Idle Item & XP Merge Throttling (`gfloor.optimizeItemAndXpMerge`)**: Increases stationary item merge scan interval (`40 -> 60` ticks) and idle XP orb player-scan interval (`1 -> 4` ticks).
 
-### Optimized Chunk Generation
-- Canvas replaces a rewritten chunk system pool, providing further optimizations that help with scaling and single-threaded throughput
+### Enabled Canvas Defaults
+- `enableWorkStealing`: `true`
+- `enableMidTickTasks`: `true`
+- `fluidPostProcessingToScheduledTick`: `true`
+- `optimizeAquifer`: `true`
+- `useEndBiomeCache`: `true`
+- `optimizeBeardifier`: `true`
+- `optimizeNoiseGeneration`: `true`
+- `deduplicateShuffledTemplatePoolElementList`: `true`
+- `optimizeStructureGen`: `true`
+- `filterClientboundSetEntityMotionPacket`: `true`
+- `reduceUselessMovePackets`: `true`
+- `optimizePlayerListTicking`: `true`
+- `asyncProtocolSwitch`: `true`
+- `cactusCheckSurvivalBeforeGrowth`: `true`
+- `enableCachedMTBEntityTypeConvert`: `true`
 
-### Extensive Configuration
-- Fine-tune aspects of your server with fully documented configuration options and performance settings.
+## Building
 
-### Proper Region Profiling
-- Canvas introduces a full Spark profiler that is fully compatible with region threading, replacing the limited Folia profiling engine.
-
-### Powerful and Optimized
-- By fixing **numerous** Folia bugs and crashes, Canvas delivers a high-performance, stable, and reliable experience.
-
----
-
-## Getting Started
-
-### Downloading & Running
-
-1. Download the latest server JAR from the **Downloads** page on [canvasmc.io](https://canvasmc.io/downloads/canvas).  
-2. Launch using Java (Java 21+ required) with your preferred arguments and configuration.
-
-### Building from Source
-
-**Requirements:**
-
-- Java 21
-- Git (configured with name/email)
-
-**Common build commands:**
+Requires **Java 21**.
 
 ```bash
-./gradlew applyAllPatches # Applies all patches to construct the Canvas source
-./gradlew createMojmapPublisherJar # Creates the publication jar used by our Jenkins CI
-./gradlew runDevServer # Starts a development server locally
+./gradlew applyAllPatches
+./gradlew createMojmapPaperclipJar
 ```
 
-## Documentation & Resources
-
-* **Official Documentation**: [https://docs.canvasmc.io](https://docs.canvasmc.io)
-* **Community & Support**: Join the Canvas [Discord](https://canvasmc.io/discord)
-* **Issue Tracker / Contributing**: Use this GitHub repo for reporting bugs, proposing features, and submitting pull requests
-* **Donations / Sponsorship**: Support development on [Ko-fi](https://ko-fi.com/dueris)
-
----
-
-## Contributing
-
-We welcome many forms of contributions:
-
-* Code (bug fixes, features)
-* Documentation improvements
-* Testing & bug reporting
-* Community help & support
-* Donations to help support the developers
-
-See the [Canvas Contributing Guide](https://docs.canvasmc.io/guides/developers/contributing/canvas/) for more detail.
-
----
-
-## Compatibility & Notes
-
-* Canvas is a fork of **Folia** and is *not* a drop-in replacement for Purpur, Paper, or other non-Folia forks. It is intended primarily for environments already using Folia or Folia-based forks.
-* The project adheres strictly to Folia’s threading and safety rules and does *not* permit bypassing them.
-
----
+The runnable server JAR is generated in `canvas-server/build/libs/`.
 
 ## License
 
-This project is licensed under the **GNU General Public License v3.0 (GPL-3.0)**.
-
----
-
-## Acknowledgments & Inspiration
-
-Canvas incorporates patches inspired by or derived from other high-performance projects (e.g. **Lithium**, **Leaf**), along with its own custom optimizations.
+See [LICENSE](LICENSE).

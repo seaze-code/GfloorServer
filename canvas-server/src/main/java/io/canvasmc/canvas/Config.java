@@ -44,12 +44,12 @@ import org.jspecify.annotations.NonNull;
 @Configuration("canvas-server")
 public class Config {
     public static boolean ENABLE_FASTER_RANDOM = true;
-    public static final ComponentLogger LOGGER = ComponentLogger.logger("Canvas");
+    public static final ComponentLogger LOGGER = ComponentLogger.logger("GfloorServer");
     // Note: this field should never be used during POST, use 'context.configuration()' instead
     public static Config INSTANCE;
     public static ApiClient.BuildStatus ACTIVE_BUILD_CHANNEL = ApiClient.BuildStatus.UNKNOWN;
     public static final Consumer<String> GLOBAL_BROADCAST = (msg) -> {
-        Component component = RegionizedTpsBar.gradient("[CanvasMC] ",
+        Component component = RegionizedTpsBar.gradient("[GfloorServer] ",
             s -> s.decorate(TextDecoration.BOLD),
             TextColor.color(0x357CEF), TextColor.color(0xF21AF4));
 
@@ -193,12 +193,12 @@ public class Config {
             "to improve performance. If this is enabled, and the task misses its deadline by 'stealThresholdMillis', it can",
             "be taken by another tick thread to be run."
         })
-        public boolean enableWorkStealing = false;
+        public boolean enableWorkStealing = true;
 
         @Comment({
             "Enables the affinity scheduler to run intermediate tasks while waiting for the deadline of the currently owned tick"
         })
-        public boolean enableMidTickTasks = false;
+        public boolean enableMidTickTasks = true;
 
         @Comment({
             "The default tick rate for the scheduler. Vanilla is 20, the game will run faster or slower depending on how you adjust this value",
@@ -237,23 +237,23 @@ public class Config {
             "Fluid post-processing is very expensive when loading in new chunks, and this can affect",
             "MSPT significantly. This option delays fluid post-processing to scheduled tick to hopefully mitigate this issue."
         })
-        public boolean fluidPostProcessingToScheduledTick = false;
+        public boolean fluidPostProcessingToScheduledTick = true;
 
         @Comment("Whether to enable aquifer optimizations to accelerate overworld worldgen")
-        public boolean optimizeAquifer = false;
+        public boolean optimizeAquifer = true;
 
         @Comment("Whether to enable End Biome Cache to accelerate The End worldgen")
-        public boolean useEndBiomeCache = false;
+        public boolean useEndBiomeCache = true;
 
         @PositiveNumericValueValidator.PositiveNumericValue
         @Comment("The cache capacity for the end biome cache. Only works with 'useEndBiomeCache' enabled")
         public int endBiomeCacheCapacity = 1024;
 
         @Comment("Whether to enable Beardifier optimizations to accelerate world generation")
-        public boolean optimizeBeardifier = false;
+        public boolean optimizeBeardifier = true;
 
         @Comment("Whether to enable optimizations to the noise based chunk generator")
-        public boolean optimizeNoiseGeneration = false;
+        public boolean optimizeNoiseGeneration = true;
 
         public Structures structures = new Structures();
 
@@ -270,10 +270,10 @@ public class Config {
                 "Pros: Get a bit more performance from high weight Template Pool Structures.",
                 "Cons: Loses parity with vanilla seeds on the layout of the structure. (Structure layout is not broken, just different)"
             })
-            public boolean deduplicateShuffledTemplatePoolElementList = false;
+            public boolean deduplicateShuffledTemplatePoolElementList = true;
 
             @Comment("Enables a port of the mod StructureLayoutOptimizer, which optimizes generation of Jigsaw Structures and NBT pieces")
-            public boolean optimizeStructureGen = false;
+            public boolean optimizeStructureGen = true;
         }
     }
 
@@ -284,10 +284,10 @@ public class Config {
             "The ClientboundSetEntityMotionPacket can often cause high network (Netty) usage and consumes (on larger production servers)",
             "up to 60% of your network usage. Filtering should have no side effects visually on the client. If you find any, report to Canvas"
         })
-        public boolean filterClientboundSetEntityMotionPacket = false;
+        public boolean filterClientboundSetEntityMotionPacket = true;
 
         @Comment("Filters entity movement packets to reduce the amount of useless move packets sent")
-        public boolean reduceUselessMovePackets = false;
+        public boolean reduceUselessMovePackets = true;
 
         @Comment("When enabled, hides flames on entities with fire resistance")
         public boolean hideFlamesOnEntitiesWithFireResistance = false;
@@ -299,14 +299,14 @@ public class Config {
             "Optimizes player information packet sending by splitting players",
             "into buckets to be sent to spread out the list tick"
         })
-        public boolean optimizePlayerListTicking = false;
+        public boolean optimizePlayerListTicking = true;
 
         @PositiveNumericValueValidator.PositiveNumericValue
         @Comment("The interval in ticks for how often the server will tick the playerlist buckets")
         public int playerInfoSendInterval = 600;
 
         @Comment("This option makes protocol switching asynchronous, reducing global region blocking and improving login and configuration performance.")
-        public boolean asyncProtocolSwitch = false;
+        public boolean asyncProtocolSwitch = true;
 
         @Comment("The maximum bytes that can be sent by the server in a single packet to a player before kicking them")
         public int maximumPacketBytes = 8388608;
@@ -323,10 +323,10 @@ public class Config {
     }
 
     @Comment("Check if a cactus can survive before growing. Heavily optimizes cacti farms")
-    public boolean cactusCheckSurvivalBeforeGrowth = false;
+    public boolean cactusCheckSurvivalBeforeGrowth = true;
 
     @Comment("Whether to cache expensive CraftEntityType#minecraftToBukkit call")
-    public boolean enableCachedMTBEntityTypeConvert = false;
+    public boolean enableCachedMTBEntityTypeConvert = true;
 
     @Comment("Enables creation of tile entity snapshots on retrieving blockstates")
     public boolean tileEntitySnapshotCreation = false;
@@ -771,4 +771,36 @@ public class Config {
         "empty void. With this option enabled, Canvas will make the client display this screen which can be more visually appealing"
     })
     public boolean displayWorldLoadScreenForPortaling = true;
+
+    @Comment("GfloorServer SMP optimizations and dynamic region splitting (by sea, urboy, xlay)")
+    public Gfloor gfloor = new Gfloor();
+
+    public static class Gfloor {
+        @Comment("Uses finer 4x4 chunk region sections so crowded player areas split across separate region threads")
+        public boolean enableCrowdRegionSplit = true;
+
+        @Comment("Player count in a region before crowd throttling activates")
+        public int crowdPlayerThreshold = 16;
+
+        @Comment("Caps collision checks and reduces distant mob AI frequency in crowded regions")
+        public boolean enableCrowdEntityThrottling = true;
+
+        @Comment("Max entity collisions processed per tick in crowded spots")
+        public int maxEntityCollisions = 4;
+
+        @Comment("Distance in blocks before distant mob AI throttling applies")
+        public double aiThrottleDistance = 32.0;
+
+        @Comment("Doubles idle hopper cooldown when no items moved in crowded regions")
+        public boolean optimizeHopperUnderLoad = true;
+
+        @Comment("Reduces random tick load in crowded regions without stopping farms")
+        public boolean enableDynamicChunkTicking = true;
+
+        @Comment("Divisor applied to randomTickSpeed in crowded regions (minimum 1)")
+        public int crowdedRandomTickDivisor = 2;
+
+        @Comment("Reduces redundant item and XP orb merge scans when idle in crowded regions")
+        public boolean optimizeItemAndXpMerge = true;
+    }
 }
