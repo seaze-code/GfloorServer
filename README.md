@@ -15,8 +15,13 @@ All changes are tuned to keep vanilla gameplay, PvP, redstone, and farms intact 
 - **Idle Hopper Cooldown Scaling (`gfloor.optimizeHopperUnderLoad`)**: Doubles check cooldown only for hoppers that did not move any items in crowded regions.
 - **Dynamic Chunk Random Ticking (`gfloor.enableDynamicChunkTicking`)**: Scales `randomTickSpeed` in crowded regions (`crowdedRandomTickDivisor: 2`).
 - **Idle Item & XP Merge Throttling (`gfloor.optimizeItemAndXpMerge`)**: Increases stationary item merge scan interval (`40 -> 60` ticks) and idle XP orb player-scan interval (`1 -> 4` ticks).
+- **Empty Effects Skip (`gfloor.skipEmptyEffectsTick`)**: Skips potion effect iteration when an entity has no active effects.
+- **Idle Villager Brain Throttle (`gfloor.optimizeIdleVillagerBrain`)**: Halves brain ticks for non-trading villagers in crowded regions.
+- **Distant Pathfinding Throttle (`gfloor.throttleDistantPathfinding`)**: Delays path recomputation for mobs without a target in crowded regions.
+- **Fast Spectator/Removed Push Skip**: Skips `pushEntities` immediately for removed or spectator entities.
 
 ### Enabled Canvas Defaults
+- `enableSuffocationOptimization`: `true`
 - `enableWorkStealing`: `true`
 - `enableMidTickTasks`: `true`
 - `fluidPostProcessingToScheduledTick`: `true`

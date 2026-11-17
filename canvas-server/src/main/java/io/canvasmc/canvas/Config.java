@@ -601,7 +601,7 @@ public class Config {
         "that still appears vanilla. This should be left enabled on most servers, but",
         "is provided as a configuration option if the vanilla deviation is undesirable"
     })
-    public boolean enableSuffocationOptimization = false;
+    public boolean enableSuffocationOptimization = true;
 
     @NonNegativeNumericValueValidator.NonNegativeNumericValue
     @Comment({
@@ -802,5 +802,14 @@ public class Config {
 
         @Comment("Reduces redundant item and XP orb merge scans when idle in crowded regions")
         public boolean optimizeItemAndXpMerge = true;
+
+        @Comment("Skips potion effect iteration when an entity has no active effects")
+        public boolean skipEmptyEffectsTick = true;
+
+        @Comment("Reduces idle villager brain ticks in crowded regions when not trading")
+        public boolean optimizeIdleVillagerBrain = true;
+
+        @Comment("Throttles path recomputation for mobs without a target in crowded regions")
+        public boolean throttleDistantPathfinding = true;
     }
 }
