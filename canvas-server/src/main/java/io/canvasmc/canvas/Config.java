@@ -832,5 +832,29 @@ public class Config {
 
         @Comment("Automatically lowers crowdPlayerThreshold by 25% when region MSPT exceeds 40ms")
         public boolean enableTpsAutoGuard = true;
+
+        @Comment("Throttles equipment change scans on non-player mobs")
+        public boolean throttleMobEquipmentUpdates = true;
+
+        @Comment("Doubles target search interval for mobs in crowded regions")
+        public boolean throttleCrowdedTargetSearch = true;
+
+        @Comment("Skips recipe checks on completely empty, unlit furnaces")
+        public boolean optimizeIdleFurnaces = true;
+
+        @Comment("Skips potion mix checks on empty, idle brewing stands")
+        public boolean optimizeIdleBrewingStands = true;
+
+        @Comment("Skips cooking loops on empty campfires")
+        public boolean optimizeEmptyCampfires = true;
+
+        @Comment("Discards projectiles immediately when far outside world height bounds")
+        public boolean fastDiscardOutOfBoundsProjectiles = true;
+
+        @Comment("Reduces tick frequency for static, marker, no-gravity armor stands")
+        public boolean throttleStaticMarkerArmorStands = true;
+
+        @Comment("Skips redundant mob equipment sync after pairing if entity has no equipment")
+        public boolean skipEmptyEquipmentSyncOnPair = true;
     }
 }

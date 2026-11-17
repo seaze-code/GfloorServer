@@ -25,6 +25,14 @@ All changes are tuned to keep vanilla gameplay, PvP, redstone, and farms intact 
 - **Beacon Scan Optimization (`gfloor.optimizeBeaconScan`)**: Halves sky/pyramid re-scan frequency for active beacons.
 - **Idle Boat Water-Check Skip (`gfloor.optimizeIdleBoats`)**: Skips redundant water-level scans on empty, stationary boats.
 - **Fast Thunder Early-Return (`gfloor.fastThunderEarlyReturn`)**: Returns immediately from `tickThunder` when not thundering.
+- **Mob Equipment Update Throttle (`gfloor.throttleMobEquipmentUpdates`)**: Checks mob equipment changes every other tick.
+- **Crowded Target Search Throttle (`gfloor.throttleCrowdedTargetSearch`)**: Doubles `NearestAttackableTargetGoal` random interval in crowded regions.
+- **Idle Furnace Fast-Path (`gfloor.optimizeIdleFurnaces`)**: Skips recipe checks on empty, unlit furnaces/smokers/blast furnaces.
+- **Idle BrewingStand Fast-Path (`gfloor.optimizeIdleBrewingStands`)**: Skips potion mix checks on empty, idle brewing stands.
+- **Empty Campfire Fast-Path (`gfloor.optimizeEmptyCampfires`)**: Skips cooking loops on empty campfires.
+- **Out-of-Bounds Projectile Discard (`gfloor.fastDiscardOutOfBoundsProjectiles`)**: Discards projectiles immediately when far outside world height bounds.
+- **Static Marker ArmorStand Throttle (`gfloor.throttleStaticMarkerArmorStands`)**: Reduces tick frequency for static, marker, no-gravity armor stands.
+- **Skip Empty Equipment Sync (`gfloor.skipEmptyEquipmentSyncOnPair`)**: Skips redundant mob `detectEquipmentUpdates` after pairing when equipment is empty.
 
 ### Enabled Canvas Defaults
 - `enableSuffocationOptimization`: `true`
